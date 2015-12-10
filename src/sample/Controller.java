@@ -14,7 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 
-public class Controller
+public class Controller //ABANS D'EXECUTAR LA APLICACIÓ HAURÁS D'EXECUTAR EL PokemonDatabaseGenerator per a que crei la BASE DE DADES.
 {
     PokemonDAO DAO = new PokemonDAO(); //Creem el DATA ACCESS OBJECT PER LA BASE DE DADES DE POKEMONS.
 
@@ -27,7 +27,7 @@ public class Controller
 
     public void initialize()
     {
-        listView.setOnMouseClicked(new EventHandler<MouseEvent>()
+        listView.setOnMouseClicked(new EventHandler<MouseEvent>() //ON CLICK LISTENER PER AL LISTVIEW
         {
             public void handle(MouseEvent event)
             {
@@ -39,7 +39,7 @@ public class Controller
             }
         });
 
-        image.setOnMouseClicked(new EventHandler<MouseEvent>()
+        image.setOnMouseClicked(new EventHandler<MouseEvent>() //ON CLICK LISTENER PER A LA IMATGE
         {
             public void handle(MouseEvent event)
             {

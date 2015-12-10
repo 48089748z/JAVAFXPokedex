@@ -30,38 +30,11 @@ public class PokemonDatabaseGenerator
 
     public static void main(String[] args)
     {
-        //deleteDatabase();
-        //generateDatabase();
-        //generateObjects();
-        //printInfo();
-        //doInserts();
-        //doSelects();
-    }
-    public static void doSelects()
-    {
-        System.out.println("\nSearch Pokemon by name");
-        String name = in.nextLine().toLowerCase();
-        try {
-            Class.forName("org.sqlite.JDBC");
-            Connection connection = DriverManager.getConnection("jdbc:sqlite:Pokemons.db");
-            connection.setAutoCommit(false);
-            Statement statement = connection.createStatement();
-            ResultSet result;
-            result = statement.executeQuery("SELECT * FROM POKEMONS WHERE NAME = '" + name + "'");
-            if (result.next()) //UNA BUSQUEDA POR NOMBRE SOLO PUEDEN DARNOS UN CURSOR CON UN RESULTADO, POR ESO PONEMOS IF EN VEZ DE WHILE
-            {
-                System.out.println("\nPokemon Name: " + result.getString("NAME"));
-                System.out.println("Pokemon LifePoints: " + result.getString("LIFEPOINTS"));
-                System.out.println("Pokemon Id: " + result.getString("ID"));
-                System.out.println("Pokemon Weight: " + result.getString("WEIGHT"));
-                System.out.println("Pokemon Image URL: " + result.getString("IMAGE"));
-                System.out.println("Pokemon Resource URL: " + result.getString("RESOURCE_URI"));
-            }
-            else{System.out.println("NO RESULTS FOR '"+name+"'");}
-            result.close();
-            statement.close();
-            connection.close();
-        } catch (Exception one) {}
+        deleteDatabase();
+        generateDatabase();
+        generateObjects();
+        printInfo();
+        doInserts();
     }
     public static void doInserts()
     {
