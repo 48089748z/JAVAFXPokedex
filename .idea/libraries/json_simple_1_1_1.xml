@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="json-simple-1.1.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Baixades/NOBORRAR/json-simple-1.1.1.jar!/" />
+      <root url="jar://$USER_HOME$/Baixades/NOBORRAR/postgresql-9.4-1206-jdbc4.jar!/" />
+      <root url="jar://$USER_HOME$/Baixades/NOBORRAR/sqlite-jdbc-3.8.11.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Baixades/NOBORRAR/sqlite-jdbc-3.8.11.2.jar!/" />
+      <root url="file://$PROJECT_DIR$/src" />
+    </SOURCES>
+  </library>
+</component>
