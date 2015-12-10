@@ -39,8 +39,10 @@ public class Controller
             }
         });
 
-        image.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
+        image.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
+            public void handle(MouseEvent event)
+            {
                 listView.setVisible(true);
                 image.setVisible(false);
                 details.setVisible(false);
@@ -53,7 +55,8 @@ public class Controller
     {
         searchText.setVisible(true);
         searchBT.setVisible(true);
-
+        searchText.setText("");
+        searchText.setPromptText("Search by Pokemon name");
     }
     public void search(ActionEvent actionEvent)
     {
