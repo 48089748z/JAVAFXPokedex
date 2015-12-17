@@ -34,13 +34,14 @@ public class Controller
 
     public void initialize()
     {
-        image.setFitHeight(100);
-        image.setFitWidth(100);
+        image.setFitHeight(200);
+        image.setFitWidth(200);
         slider.setValue(image.getFitHeight() / 5);
         slider.setVisible(false);
         listView.setOnMouseClicked(new EventHandler<MouseEvent>() //ON CLICK LISTENER PER AL LISTVIEW
         {
-            public void handle(MouseEvent event) {
+            public void handle(MouseEvent event)
+            {
                 slider.setVisible(true);
                 listView.setVisible(false);
                 image.setVisible(true);
