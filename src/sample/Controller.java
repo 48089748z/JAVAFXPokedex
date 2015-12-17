@@ -1,23 +1,30 @@
 package sample;
 
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
-
-public class Controller //ABANS D'EXECUTAR LA APLICACIÓ HAURÁS D'EXECUTAR EL PokemonDatabaseGenerator per a que crei la BASE DE DADES.
+public class Controller
 {
     PokemonDAO DAO = new PokemonDAO(); //Creem el DATA ACCESS OBJECT PER LA BASE DE DADES DE POKEMONS.
-
+    public Slider slider;
+    //public ScrollPane scrollPane;
     public Button searchBT;
     public TextArea searchText;
     public ListView<String> listView;
@@ -27,13 +34,17 @@ public class Controller //ABANS D'EXECUTAR LA APLICACIÓ HAURÁS D'EXECUTAR EL P
 
     public void initialize()
     {
+        image.setFitHeight(100);
+        image.setFitWidth(100);
+        slider.setValue(image.getFitHeight() / 5);
+        slider.setVisible(false);
         listView.setOnMouseClicked(new EventHandler<MouseEvent>() //ON CLICK LISTENER PER AL LISTVIEW
         {
-            public void handle(MouseEvent event)
-            {
+            public void handle(MouseEvent event) {
+                slider.setVisible(true);
                 listView.setVisible(false);
                 image.setVisible(true);
-                image.setImage(new Image(DAO.getImageURL(listView.getSelectionModel().getSelectedIndex()+1)));
+                image.setImage(new Image(DAO.getImageURL(listView.getSelectionModel().getSelectedIndex() + 1)));
                 details.setVisible(true);
                 details.setText(listView.getSelectionModel().getSelectedItem());
             }
@@ -41,11 +52,21 @@ public class Controller //ABANS D'EXECUTAR LA APLICACIÓ HAURÁS D'EXECUTAR EL P
 
         image.setOnMouseClicked(new EventHandler<MouseEvent>() //ON CLICK LISTENER PER A LA IMATGE
         {
-            public void handle(MouseEvent event)
-            {
+            public void handle(MouseEvent event) {
+                slider.setVisible(false);
                 listView.setVisible(true);
                 image.setVisible(false);
                 details.setVisible(false);
+            }
+        });
+        slider.valueProperty().addListener(new ChangeListener<Number>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+            {
+                Double sliderValue = newValue.doubleValue();
+                image.setFitHeight(sliderValue * 5);
+                image.setFitWidth(sliderValue * 5);
             }
         });
         refresh();
@@ -60,6 +81,7 @@ public class Controller //ABANS D'EXECUTAR LA APLICACIÓ HAURÁS D'EXECUTAR EL P
     }
     public void search(ActionEvent actionEvent)
     {
+        slider.setVisible(true);
         listView.setVisible(false);
         image.setVisible(true);
         details.setVisible(true);
@@ -93,19 +115,18 @@ public class Controller //ABANS D'EXECUTAR LA APLICACIÓ HAURÁS D'EXECUTAR EL P
         }
         listView.setItems(items);
     }
-    public void close(ActionEvent actionEvent)
-    {
+    public void close(ActionEvent actionEvent) {
         Platform.exit();
     }
-    public void about(ActionEvent actionEvent)
-    {
+
+    public void about(ActionEvent actionEvent) {
         refresh();
         items.clear();
         items.add("\n THIS IS JUST A POKEDEX\n\n NO MORE INFO AVAILABLE");
         listView.setItems(items);
     }
-    public void refresh(ActionEvent actionEvent)
-    {
+
+    public void refresh(ActionEvent actionEvent) {
         refresh();
     }
 }
