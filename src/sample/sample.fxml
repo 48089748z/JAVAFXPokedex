@@ -19,6 +19,7 @@
           <Menu mnemonicParsing="false" text="Edit">
             <items>
               <MenuItem fx:id="refresh" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
+                  <MenuItem fx:id="back" mnemonicParsing="false" onAction="#back" text="Back" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -28,7 +29,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ListView fx:id="listView" layoutY="29.0" prefHeight="900.0" prefWidth="550.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+      <ListView fx:id="listView" layoutY="29.0" prefHeight="723.0" prefWidth="550.0" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
       <Text fx:id="details" layoutX="23.0" layoutY="566.0" lineSpacing="5.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Details" wrappingWidth="503.99999218044104" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="550.0">
          <font>
             <Font name="DejaVu Sans Bold" size="14.0" />
@@ -40,5 +41,6 @@
       <Button fx:id="searchBT" layoutX="465.0" layoutY="30.0" mnemonicParsing="false" onAction="#search" prefHeight="40.0" prefWidth="85.0" text="Search" AnchorPane.bottomAnchor="730.0" AnchorPane.leftAnchor="465.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
       <Slider fx:id="slider" layoutX="528.0" layoutY="70.0" min="1.0" orientation="VERTICAL" prefHeight="430.0" prefWidth="16.0" AnchorPane.bottomAnchor="300.0" AnchorPane.leftAnchor="530.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="70.0" />
       <ImageView fx:id="image" fitHeight="450.0" fitWidth="520.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="70.0" />
+      <Text fx:id="downloadinginfo" layoutX="15.0" layoutY="766.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Database Status" wrappingWidth="520.0000023841858" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="753.0" />
    </children>
 </AnchorPane>

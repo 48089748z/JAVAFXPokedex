@@ -1,4 +1,4 @@
-package sample.PokemonDatabase;
+package sample;
 
 /**
  * Created by 48089748z on 09/12/15.

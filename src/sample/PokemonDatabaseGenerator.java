@@ -1,9 +1,8 @@
-package sample.PokemonDatabase;
+package sample;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -13,30 +12,34 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * Created by 48089748z on 09/12/15.
- */
-public class PokemonDatabaseGenerator
+public class PokemonDatabaseGenerator extends Thread
 {
     //FULL POKEDEX URL = http://pokeapi.co/api/v1/pokedex/1/
     //FULL POKEMON 1 URL = http://pokeapi.co/api/v1/pokemon/1/
     //FULL POKEMON 1 IMAGE URL = http://pokeapi.co/media/img/1.png
-    private static Scanner in = new Scanner(System.in);
-    private static String BASE_URL = "http://pokeapi.co/";
-    private static String POKEDEX_URL = BASE_URL + "api/v1/pokedex/1/";
-    private static String RESOURCE_URI = "api/v1/pokemon/1/";
-    private static String POKEMON_URL = BASE_URL + RESOURCE_URI;
-    private static Pokedex pokedex;
+    private Scanner in = new Scanner(System.in);
+    private String BASE_URL = "http://pokeapi.co/";
+    private String POKEDEX_URL = BASE_URL + "api/v1/pokedex/1/";
+    private String RESOURCE_URI = "api/v1/pokemon/1/";
+    private String POKEMON_URL = BASE_URL + RESOURCE_URI;
+    private Pokedex pokedex;
+    private Controller controller;
 
-    public static void main(String[] args)
+    public PokemonDatabaseGenerator(Controller controller)
+    {
+        this.controller = controller;
+    }
+    public void run()
     {
         deleteDatabase();
         generateDatabase();
         generateObjects();
-        printInfo();
+        //printInfo();
         doInserts();
+        controller.setStatusText("DATABASE CREATED SUCCESFULLY");
+        controller.loadListView();
     }
-    public static void doInserts()
+    public void doInserts()
     {
         System.out.println();
         for (int x=0; x<pokedex.getPokemons().size(); x++)
@@ -60,14 +63,15 @@ public class PokemonDatabaseGenerator
                 prepStat.close();
                 connection.commit();
                 connection.close();
-                System.out.println("INSERTED "+pokedex.getPokemons().get(x).getName().toUpperCase()+" INTO DATABASE SUCCESSFULLY!");
+                System.out.println("INSERTED " + pokedex.getPokemons().get(x).getName().toUpperCase() + " INTO DATABASE SUCCESSFULLY!");
+                controller.setStatusText("\nINSERTED " + pokedex.getPokemons().get(x).getName().toUpperCase()+" INTO DATABASE SUCCESSFULLY!");
             }
             catch (Exception one) {
                 System.out.println("INSERT "+x+" FAILED! ("+pokedex.getPokemons().get(x).getName()+")");
             }
         }
     }
-    private static void generateDatabase() //Metode que nom�s sha d'executar un cop al principi per a crear la base de dades de Pelicules.
+    private void generateDatabase() //Metode que nom�s sha d'executar un cop al principi per a crear la base de dades de Pelicules.
     {
         try {
             Class.forName("org.sqlite.JDBC");
@@ -83,15 +87,17 @@ public class PokemonDatabaseGenerator
             statement.executeUpdate(query);
             statement.close();
             connection.close();
+            controller.setStatusText("\nDATABASE GENERATED");
         } catch (Exception one) {System.out.println("FAILED TO GENERATE DATABASE");}
         System.out.println("\n---------------------------------------- DATABASE GENERATED SUCCESSFULLY! ----------------------------------------");
     }
-    public static void deleteDatabase()
+    public void deleteDatabase()
     {
         File database = new File("/home/48089748z/IdeaProjects/JAVAFXPokemons/Pokemons.db");
-        if(database.delete()) {System.out.println("\n---------------------------------------- DATABASE DELETED SUCCESSFULLY! ----------------------------------------");}
+        if(database.delete()) {System.out.println("\n---------------------------------------- DATABASE DELETED SUCCESSFULLY! ----------------------------------------");
+            controller.setStatusText("Database Deleted");}
     }
-    public static void printInfo()
+    public void printInfo()
     {
         System.out.println("\n---------------------------------------- PRINTING ALL INFO FROM OBJECTS ----------------------------------------");
         System.out.println(pokedex.toString());
@@ -100,7 +106,7 @@ public class PokemonDatabaseGenerator
             System.out.println("\n"+pokedex.getPokemons().get(x).toStringDetailed());
         }
     }
-    public static void generateObjects()
+    public void generateObjects()
     {
         System.out.println("\n---------------------------------------- GENERATING OBJECTS... (This might take a while) ----------------------------------------");
         pokedex = new Pokedex();
@@ -124,17 +130,18 @@ public class PokemonDatabaseGenerator
             pokemon.setWeight(pokemonDetailsJO.get("weight").toString());
             pokemon.setLifepoints(pokemonDetailsJO.get("hp").toString());
             pokemon.setId(pokemonDetailsJO.get("pkdx_id").toString());
-            pokemon.setImage(BASE_URL+"media/img/"+pokemon.getId()+".png");
+            pokemon.setImage(BASE_URL + "media/img/" + pokemon.getId() + ".png");
             pokemon.toStringDetailed();
 
-            System.out.println("\n"+pokemon.getName().toUpperCase()+ " OBJECT GENERATED... ("+x+"/"+pokemonsJA.size()+")");
+            System.out.println("\n" + pokemon.getName().toUpperCase() + " OBJECT GENERATED... (" + x + "/" + pokemonsJA.size() + ")");
             pokemons.add(pokemon);
+            controller.setStatusText("\n"+pokemon.getName().toUpperCase()+ " OBJECT GENERATED... ("+x+"/"+pokemonsJA.size()+")");
         }
         System.out.println("\n---------------------------------------- POKEMON OBJECTS GENERATED SUCCESFULLY ----------------------------------------");
         pokedex.setPokemons(pokemons);
         System.out.println("\n---------------------------------------- POKEDEX OBJECT GENERATED SUCCESFULLY ----------------------------------------");
     }
-    public static String getJSON(String URLtoRead) //Metode per agafar el String que cont� el JSON desde internet
+    public String getJSON(String URLtoRead) //Metode per agafar el String que cont� el JSON desde internet
     {
         try
         {

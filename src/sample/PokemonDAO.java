@@ -1,7 +1,5 @@
 package sample;
 
-import javafx.scene.image.Image;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;

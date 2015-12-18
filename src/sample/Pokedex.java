@@ -1,4 +1,4 @@
-package sample.PokemonDatabase;
+package sample;
 
 import java.util.ArrayList;
 

@@ -30,10 +30,13 @@ public class Controller
     public ListView<String> listView;
     public ImageView image;
     public Text details;
+    public Text downloadinginfo;
+
     public ObservableList<String> items = FXCollections.observableArrayList();
 
     public void initialize()
     {
+        downloadinginfo.setText("\nDATABASE STATUS");
         image.setFitHeight(200);
         image.setFitWidth(200);
         slider.setValue(image.getFitHeight() / 5);
@@ -53,7 +56,8 @@ public class Controller
 
         image.setOnMouseClicked(new EventHandler<MouseEvent>() //ON CLICK LISTENER PER A LA IMATGE
         {
-            public void handle(MouseEvent event) {
+            public void handle(MouseEvent event)
+            {
                 slider.setVisible(false);
                 listView.setVisible(true);
                 image.setVisible(false);
@@ -66,11 +70,12 @@ public class Controller
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
             {
                 Double sliderValue = newValue.doubleValue();
+                downloadinginfo.setText("IMAGE WIDTH: "+image.getFitWidth()+" dp\nIMAGE HEIGHT: "+image.getFitHeight()+" dp");
                 image.setFitHeight(sliderValue * 5);
                 image.setFitWidth(sliderValue * 5);
             }
         });
-        refresh();
+        back();
     }
 
     public void letSearch(ActionEvent actionEvent)
@@ -94,7 +99,7 @@ public class Controller
         }
         catch (Exception one)
         {
-            refresh();
+            back();
             items.clear();
             items.add("\n THAT POKEMON DOESN'T EXIST");
             listView.setItems(items);
@@ -102,7 +107,7 @@ public class Controller
         searchText.setVisible(false);
         searchBT.setVisible(false);
     }
-    public void refresh()
+    public void back()
     {
         searchText.setVisible(false);
         searchBT.setVisible(false);
@@ -121,13 +126,27 @@ public class Controller
     }
 
     public void about(ActionEvent actionEvent) {
-        refresh();
+        back();
         items.clear();
         items.add("\n THIS IS JUST A POKEDEX\n\n NO MORE INFO AVAILABLE");
         listView.setItems(items);
     }
 
-    public void refresh(ActionEvent actionEvent) {
-        refresh();
+    public void back(ActionEvent actionEvent) {back();}
+
+    public void setStatusText(String status)
+    {
+        downloadinginfo.setText(status);
+    }
+
+    public void refresh(ActionEvent actionEvent)
+    {
+        downloadinginfo.setText("\nUPDATING DATABASE");
+        PokemonDatabaseGenerator downloader = new PokemonDatabaseGenerator(this);
+        downloader.start();
+    }
+    public void loadListView()
+    {
+        back();
     }
 }
